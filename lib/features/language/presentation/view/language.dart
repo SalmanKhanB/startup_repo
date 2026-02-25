@@ -1,7 +1,6 @@
-import 'package:startup_repo/core/utils/app_padding.dart';
-import 'package:startup_repo/core/utils/app_radius.dart';
-import 'package:startup_repo/core/utils/design_system.dart';
-import '../../../../imports.dart';
+import 'package:startup_repo/imports.dart';
+import 'package:startup_repo/features/language/data/model/language.dart';
+import 'package:startup_repo/features/language/presentation/controller/localization_controller.dart';
 
 class LanguageScreen extends StatefulWidget {
   const LanguageScreen({super.key});
@@ -19,7 +18,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
       ),
       body: GetBuilder<LocalizationController>(builder: (con) {
         return Padding(
-          padding: AppPadding.padding16,
+          padding: AppPadding.p16,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -28,14 +27,14 @@ class _LanguageScreenState extends State<LanguageScreen> {
                 suffixIcon: Iconsax.search_normal,
                 onChanged: con.searchLanguage,
               ),
-              SizedBox(height: AppSize.s16),
+              SizedBox(height: 16.sp),
               Expanded(
                 child: ListView.separated(
                   itemCount: con.languages.length,
                   separatorBuilder: (context, index) => const Divider(),
                   itemBuilder: (context, index) {
-                    LanguageModel language = con.languages[index];
-                    bool selected = con.selectedIndex == index;
+                    final LanguageModel language = con.languages[index];
+                    final bool selected = con.selectedIndex == index;
 
                     return InkWell(
                       onTap: () {
@@ -51,14 +50,14 @@ class _LanguageScreenState extends State<LanguageScreen> {
                               height: 35.sp,
                               width: 35.sp,
                               child: ClipRRect(
-                                borderRadius: AppRadius.circular100,
+                                borderRadius: AppRadius.r100,
                                 child: Image.asset(
                                   'assets/images/${language.countryCode.toLowerCase()}.png',
                                   fit: BoxFit.cover,
                                 ),
                               ),
                             ),
-                            SizedBox(width: AppSize.s10),
+                            SizedBox(width: 10.sp),
                             Expanded(child: Text(language.languageName)),
                             LanguageRadioButton(selected: selected),
                           ],
@@ -73,8 +72,8 @@ class _LanguageScreenState extends State<LanguageScreen> {
         );
       }),
       bottomNavigationBar: Padding(
-        padding: AppPadding.padding16.copyWith(top: 0),
-        child: PrimaryButton(text: 'done'.tr, onPressed: pop),
+        padding: AppPadding.p16.copyWith(top: 0),
+        child: PrimaryButton(text: 'done'.tr, onPressed: Get.back),
       ),
     );
   }
@@ -93,7 +92,7 @@ class LanguageRadioButton extends StatelessWidget {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         border: Border.all(
-          color: selected ? primaryColor : Theme.of(context).dividerColor,
+          color: selected ? Theme.of(context).primaryColor : Theme.of(context).dividerColor,
         ),
       ),
       child: Center(
@@ -101,7 +100,7 @@ class LanguageRadioButton extends StatelessWidget {
           duration: const Duration(milliseconds: 300),
           height: 12.sp,
           width: 12.sp,
-          decoration: const BoxDecoration(shape: BoxShape.circle, color: primaryColor),
+          decoration: BoxDecoration(shape: BoxShape.circle, color: Theme.of(context).primaryColor),
         ),
       ),
     );

@@ -1,5 +1,3 @@
-import 'package:startup_repo/core/utils/app_padding.dart';
-import 'package:startup_repo/core/utils/design_system.dart';
 import 'package:startup_repo/features/theme/presentation/controller/theme_controller.dart';
 import 'package:startup_repo/core/widgets/confirmation_dialog.dart';
 import 'package:startup_repo/core/widgets/confirmation_sheet.dart';
@@ -13,7 +11,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Home')),
       body: ListView(
-        padding: AppPadding.padding16,
+        padding: AppPadding.p16,
         children: [
           Column(
             children: <Widget>[
@@ -28,84 +26,77 @@ class HomeScreen extends StatelessWidget {
               Text('w900', style: context.font18.copyWith(fontWeight: FontWeight.w900)),
             ],
           ),
-          SizedBox(height: AppSize.s32),
+          SizedBox(height: 32.sp),
           Row(
             children: [
               Expanded(
                 child: PrimaryOutlineButton(
                   text: 'Outline Button',
-                  icon: Icon(Iconsax.video, size: 16.sp, color: primaryColor),
+                  icon: Icon(Iconsax.video, size: 16.sp, color: Theme.of(context).primaryColor),
                   onPressed: () {
-                    showConfirmationSheet(
+                    ConfirmationSheet.show(
                       title: 'Are you sure?',
                       subtitle: 'This action cannot be undone.',
                       actionText: 'Yes',
-                      onAccept: pop,
+                      onAccept: Get.back,
                     );
                   },
                 ),
               ),
-              SizedBox(width: AppSize.s16),
+              SizedBox(width: 16.sp),
               Expanded(
                 child: PrimaryButton(
                   text: 'Primary Button',
                   icon: Icon(Iconsax.video, size: 16.sp, color: Colors.white),
                   onPressed: () {
-                    showConfirmationDialog(
+                    ConfirmationDialog.show(
                       title: 'Are you sure?',
                       subtitle: 'This action cannot be undone.',
                       actionText: 'Yes',
-                      onAccept: pop,
+                      onAccept: Get.back,
                     );
                   },
                 ),
               ),
             ],
           ),
-          SizedBox(height: AppSize.s32),
-          GetBuilder<ThemeController>(builder: (con) {
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ThemeModeWidget(
-                  text: 'system',
-                  themeMode: ThemeMode.system,
-                  selected: con.themeMode == ThemeMode.system,
-                ),
-                ThemeModeWidget(
-                  text: 'light',
-                  themeMode: ThemeMode.light,
-                  selected: con.themeMode == ThemeMode.light,
-                ),
-                ThemeModeWidget(
-                  text: 'dark',
-                  themeMode: ThemeMode.dark,
-                  selected: con.themeMode == ThemeMode.dark,
-                ),
-              ],
-            );
-          }),
-          SizedBox(height: AppSize.s32),
+          SizedBox(height: 32.sp),
+          GetBuilder<ThemeController>(
+            builder: (con) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ThemeModeWidget(
+                    text: 'system',
+                    themeMode: ThemeMode.system,
+                    selected: con.themeMode == ThemeMode.system,
+                  ),
+                  ThemeModeWidget(
+                    text: 'light',
+                    themeMode: ThemeMode.light,
+                    selected: con.themeMode == ThemeMode.light,
+                  ),
+                  ThemeModeWidget(
+                    text: 'dark',
+                    themeMode: ThemeMode.dark,
+                    selected: con.themeMode == ThemeMode.dark,
+                  ),
+                ],
+              );
+            },
+          ),
+          SizedBox(height: 32.sp),
           const CustomTextField(hintText: 'Enter text', prefixIcon: Iconsax.search_normal),
-          SizedBox(height: AppSize.s16),
+          SizedBox(height: 16.sp),
           CustomDropDown(
             hintText: 'Dropdown',
             items: const [
-              DropdownMenuItem(
-                value: 'Item 1',
-                child: Text('Item 1'),
-              ),
-              DropdownMenuItem(
-                value: 'Item 2',
-                child: Text('Item 2'),
-              ),
-              DropdownMenuItem(
-                value: 'Item 3',
-                child: Text('Item 3'),
-              ),
+              DropdownMenuItem(value: 'Item 1', child: Text('Item 1')),
+              DropdownMenuItem(value: 'Item 2', child: Text('Item 2')),
+              DropdownMenuItem(value: 'Item 3', child: Text('Item 3')),
             ],
             onChanged: (value) {},
-          )
+          ),
         ],
       ),
     );
@@ -131,13 +122,13 @@ class ThemeModeWidget extends StatelessWidget {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: Border.all(
-                color: selected ? primaryColor : Theme.of(context).hintColor,
+                color: selected ? Theme.of(context).primaryColor : Theme.of(context).hintColor,
                 width: 1.5.sp,
               ),
             ),
             child: Icon(icon, size: 18.sp),
           ),
-          SizedBox(height: AppSize.s8),
+          SizedBox(height: 8.sp),
           Text(text, style: context.font12),
         ],
       ),

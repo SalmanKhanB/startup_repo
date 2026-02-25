@@ -1,22 +1,20 @@
 import 'package:startup_repo/imports.dart';
+import '../../data/repository/splash_repo_impl.dart';
 import '../../data/repository/splash_repo.dart';
-import '../../data/repository/splash_repo_interface.dart';
 import '../../presentation/controller/splash_controller.dart';
+import '../service/splash_service_impl.dart';
 import '../service/splash_service.dart';
-import '../service/splash_service_interface.dart';
 
 class SplashBinding extends Bindings {
   @override
   void dependencies() {
     // repo
-    SplashRepoInterface splashRepoInterface = SplashRepo(prefs: Get.find(), apiClient: Get.find());
-    Get.lazyPut(() => splashRepoInterface);
+    Get.lazyPut<SplashRepo>(() => SplashRepoImpl(prefs: Get.find(), apiClient: Get.find()));
 
     // service
-    SplashServiceInterface splashServiceInterface = SplashService(splashRepo: Get.find());
-    Get.lazyPut(() => splashServiceInterface);
+    Get.lazyPut<SplashService>(() => SplashServiceImpl(splashRepo: Get.find()));
 
     // controller
-    Get.lazyPut(() => SplashController(settingsService: Get.find()));
+    Get.lazyPut(() => SplashController(splashService: Get.find()));
   }
 }

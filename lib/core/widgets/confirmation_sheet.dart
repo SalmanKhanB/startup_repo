@@ -1,40 +1,34 @@
-import 'package:startup_repo/core/utils/app_padding.dart';
-import 'package:startup_repo/core/utils/app_size.dart';
-import 'package:startup_repo/core/utils/app_text.dart';
 import '../../imports.dart';
-
-Future showConfirmationSheet({
-  required String title,
-  required String subtitle,
-  required String actionText,
-  required Function() onAccept,
-}) {
-  return showModalBottomSheet(
-    context: Get.context!,
-    builder: (context) => ConfirmationSheet(
-      title: title,
-      subtitle: subtitle,
-      actionText: actionText,
-      onAccept: onAccept,
-    ),
-  );
-}
 
 class ConfirmationSheet extends StatelessWidget {
   final String title, subtitle, actionText;
-  final Function() onAccept;
-  const ConfirmationSheet({
+  final VoidCallback onAccept;
+  const ConfirmationSheet._({
     required this.title,
     required this.subtitle,
     required this.actionText,
     required this.onAccept,
-    super.key,
   });
+
+  /// Shows a confirmation bottom sheet with title, subtitle, and action buttons.
+  /// Uses the themed `showModalBottomSheet` — shape comes from `BottomSheetThemeData`.
+  static Future<T?> show<T>({
+    required String title,
+    required String subtitle,
+    required String actionText,
+    required VoidCallback onAccept,
+  }) {
+    return showModalBottomSheet<T>(
+      context: Get.context!,
+      builder: (_) =>
+          ConfirmationSheet._(title: title, subtitle: subtitle, actionText: actionText, onAccept: onAccept),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: AppPadding.padding16,
+      padding: AppPadding.p16,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,33 +37,24 @@ class ConfirmationSheet extends StatelessWidget {
             child: Container(
               width: 40,
               height: 5,
-              decoration: BoxDecoration(
-                color: Theme.of(context).dividerColor,
-                borderRadius: BorderRadius.circular(5),
-              ),
+              decoration: BoxDecoration(color: Theme.of(context).dividerColor, borderRadius: AppRadius.r4),
             ),
           ),
-          SizedBox(height: AppSize.s16),
+          SizedBox(height: 16.sp),
           Text(title.tr, style: context.font16.copyWith(fontWeight: FontWeight.w700)),
-          SizedBox(height: AppSize.s16),
-          Text(
-            subtitle.tr,
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
-          SizedBox(height: AppSize.s24),
+          SizedBox(height: 16.sp),
+          Text(subtitle.tr, textAlign: TextAlign.center, style: Theme.of(context).textTheme.bodyMedium),
+          SizedBox(height: 24.sp),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Expanded(
-                child: PrimaryOutlineButton(
-                  text: 'cancel'.tr,
-                  onPressed: pop,
-                  textColor: Theme.of(context).textTheme.bodyLarge!.color,
-                ),
+                child: PrimaryOutlineButton(text: 'cancel'.tr, onPressed: Get.back),
               ),
-              SizedBox(width: AppSize.s16),
-              Expanded(child: PrimaryButton(text: actionText, onPressed: onAccept)),
+              SizedBox(width: 16.sp),
+              Expanded(
+                child: PrimaryButton(text: actionText, onPressed: onAccept),
+              ),
             ],
           ),
         ],

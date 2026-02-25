@@ -1,8 +1,9 @@
 import 'package:startup_repo/imports.dart';
 
-TextTheme _createTextTheme(TextTheme base, Color color) {
-  base = base.apply(displayColor: color, bodyColor: color);
+TextTheme textTheme(AppColors colors) {
+  TextTheme base = colors.text == Colors.white ? ThemeData.dark().textTheme : ThemeData.light().textTheme;
 
+  base = base.apply(displayColor: colors.text, bodyColor: colors.text, fontFamily: 'Poppins');
   return base.copyWith(
     displayLarge: base.displayLarge?.copyWith(fontSize: 34.sp, fontWeight: FontWeight.w700),
     displayMedium: base.displayMedium?.copyWith(fontSize: 32.sp, fontWeight: FontWeight.w600),
@@ -21,6 +22,3 @@ TextTheme _createTextTheme(TextTheme base, Color color) {
     labelSmall: base.labelSmall?.copyWith(fontSize: 6.sp, fontWeight: FontWeight.w500),
   );
 }
-
-TextTheme get lightTextTheme => _createTextTheme(ThemeData.light().textTheme, textColorLight);
-TextTheme get darkTextTheme => _createTextTheme(ThemeData.dark().textTheme, textColorDark);
